@@ -52,7 +52,8 @@ def makeGrid(image_paths, gridSize):
             cur_width = the_width
 
     combined_image.save(output_path)
-    delete_files(image_paths)
+    #delete_files(image_paths)
+    print("Done...")
 
 def delete_files(image_paths):
 	for path in image_paths:
