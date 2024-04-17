@@ -24,12 +24,14 @@ def makeGrid(image_paths, gridSize):
     the_width = max_width
     the_height = max_height
 
-    width_margin = 20
-    height_margin = 50
+    #these margins are used to separate images
+    width_margin = 0
+    height_margin = 0
 
-    
-    
-    combined_image = Image.new('RGB', ((the_width+width_margin)*gridSize,(the_height+height_margin)*gridSize))
+    numOfImages = len(images)
+    gridHeight = (numOfImages // gridSize) + 1 if numOfImages % gridSize != 0 else (numOfImages // gridSize)
+
+    combined_image = Image.new('RGB', ((the_width+width_margin)*gridSize,(the_height+height_margin)*gridHeight))
 
     cur_width=0
     cur_height=0
@@ -64,11 +66,11 @@ def delete_files(image_paths):
 
 if __name__ == "__main__":
     directory = sys.argv[1]
-    x = int(input("grid size?"))
+    #x = int(input("grid size?"))
     #x = sys.argv[1]
     all_files = os.listdir(directory)
     image_paths = []
     for files in all_files:
         image_paths.append(os.path.join(directory, files))
         
-    makeGrid(image_paths,x)
+    makeGrid(image_paths,int(math.sqrt(len(image_paths)))) #takes num of images into account and tries to make it closer to a square
