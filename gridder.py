@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import PIL
 from PIL import Image
 import os
@@ -7,6 +8,7 @@ import math
 import sys
 
 def makeGrid(image_paths, gridSize):
+    print(f"trying to build a grid")
     output_path = str(time.time()).split('.')[0] + ".jpg"
     images = [Image.open(path) for path in image_paths]
 
@@ -54,7 +56,7 @@ def makeGrid(image_paths, gridSize):
             cur_width = the_width
 
     combined_image.save(output_path)
-    #delete_files(image_paths)
+    delete_files(image_paths)
     print("Done...")
 
 def delete_files(image_paths):
@@ -62,6 +64,16 @@ def delete_files(image_paths):
 		os.remove(path)
 		#print(f"File is deleted from {path}")
 	print("[INFO] All files are deleted")
+
+#newly added
+def resize_files(image_paths):
+    for image in image_paths:
+        imagex = Image.open(image)
+        print(f"[INFO] Resizing {imagex}")
+        imagex.thumbnail((1170,2532), Image.LANCZOS)
+        imagex.save(f"{image}")
+        print(f"{imagex} saved")
+    return image_paths
 
 
 if __name__ == "__main__":
@@ -72,5 +84,6 @@ if __name__ == "__main__":
     image_paths = []
     for files in all_files:
         image_paths.append(os.path.join(directory, files))
+    resize_files(image_paths)
         
     makeGrid(image_paths,int(math.sqrt(len(image_paths)))) #takes num of images into account and tries to make it closer to a square
